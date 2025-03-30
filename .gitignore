@@ -34,3 +34,11 @@
 # Zig Stuff
 .zig-cache/
 zig-out/
+
+# Opencv2 stuffs
+opencv2/
+include/
+lib64/
+
+# Images
+*.jpg
