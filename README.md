@@ -12,3 +12,6 @@ just run
 actually using build.zig for build system but i dont why but it didnt want to detect libopencv_imgcodecs, so i ditch it for good old shell
 
 
+## Credits 
+labels.txt https://github.com/zafarRehan/object_detection_COCO?tab=readme-ov-file
+pretrained mobile-net ssd v3 from https://github.com/opencv/opencv/wiki/TensorFlow-Object-Detection-API
