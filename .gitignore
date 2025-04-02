@@ -42,3 +42,6 @@ lib64/
 
 # Images
 *.jpg
+
+# Executable
+vehicleCounter
