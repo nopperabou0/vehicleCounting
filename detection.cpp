@@ -1,57 +1,57 @@
 // #include "include/opencv2/opencv.hpp"
 #include <vector>
-#include "include/detection.hpp"
 #include <iostream>
 #include <fstream>
+#include "include/detection.hpp"
 
 struct DetectionResult {
-  std::vector <float> detectionBoxes[4];
-  std::vector <int> vehicleId;
-  std::vector <std::string> vehicleClass;
-  std::vector <float> confidenceScore;
+  std::vector<cv::Rect> detectionBoxes;
+  std::vector<int> index;
+  std::vector <float> confidence;
 };
 
+DetectionResult* vehicleDetection (){
 
+  cv::dnn::DetectionModel detectionModel = cv::dnn::DetectionModel(model,config);
 
-
-
-DetectionResult vehicleDetection (){
-  DetectionResult detRes;
-  std::vector <float> detBoxes[4];
-  std::vector <int> Id;
-  std::vector <float> confScore;
-
-  std::cout << "Object Detection Model Iniatializion...\n";
-  
-  
-  
-  cv::dnn::Net Net = cv::dnn::readNet(model,config);
-  cv::dnn::DetectionModel model = cv::dnn::DetectionModel(Net);
-
-  std::vector<std::string> labels;
   std::fstream labelsFile;
-  
+  std::vector<std::string> labels;
+
+
   labelsFile.open("./models/labels.txt",std::ios_base::in);
   if (labelsFile.is_open()){
-    std::string line;
-    while(std::getline(labelsFile,line)){
-      labels.push_back(line);
+    std::string label;
+    while(std::getline(labelsFile,label)){
+      labels.push_back(label);
     }
   }
 
-  cv::Mat image = cv::imread("test.jpg",0);
+  detectionModel.setInputSize(320,320);
+  detectionModel.setInputScale(1.0/127.5);
+  detectionModel.setInputMean(127.5);
+  detectionModel.setInputSwapRB(true);
 
-  cv::Mat blob = cv::dnn::blobFromImages(image,1.0,cv::Size(1024,682),cv::Scalar(127.5));
+  cv::Mat img = cv::imread("./example.png");
+  if (img.empty()) {
+    std::cerr << "Error: Could not read the image!" << std::endl;
+    return nullptr;
+}
 
-  Net.setInput(blob);
-  cv::Mat detections = Net.forward();
+  cv::dnn::MatShape classIndex;
+  std::vector<cv::Rect> bBoxes;
+  std::vector <float> confidenceScores;
 
-  for (const auto det: )
+
+  detectionModel.detect(img, classIndex,confidenceScores,bBoxes,0.5f,0.0f);
+
+
   
-
-
-
-  return detRes;
+  DetectionResult* result = new DetectionResult{
+    .detectionBoxes = bBoxes,
+    .index = classIndex,
+    .confidence = confidenceScores,
+  };
+  return result;
 }
 
 
