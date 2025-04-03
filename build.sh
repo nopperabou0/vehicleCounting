@@ -11,7 +11,7 @@ LIBDIR="./lib64"
 LIB_PATH="-L${LIBDIR}"
 RPATH="-Wl,-rpath,${LIBDIR}"
 
-LIBS="-lopencv_core -lopencv_imgcodecs -lopencv_highgui -lopencv_dnn"
+LIBS="-lopencv_core -lopencv_imgcodecs -lopencv_highgui -lopencv_imgproc -lopencv_dnn"
 
 build_app() {
     echo "Building ${OUTPUT} with source ${SRC}"
